@@ -1,0 +1,55 @@
+    {% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+<div style="background-image:  url('/media/BG.jpg'); background-repeat:no-repeat;background-size:cover;  height:760px; width:100%;">
+    <div class="container" style="border: solid 2px;background-color:rgba(255,253,208,0.7);border-radius: 5px;width: 50%; padding-top: 50px;">
+        <h1 style="border-bottom: solid 2px;">Add Teacher</h1>
+        <div class="row" >
+           <form action="/Add_Teacher/" method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+               <div class="row">
+                    <div class="mb-3 col-md-6">
+                <label for="formGroupExampleInput" class="form-label">Name</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="name" required>
+            </div>
+            <div class="col-md-6">
+                <label for="formGroupExampleInput" class="form-label" >Gender</label>
+                <br>
+                <input type="radio"   id="formGroupExampleInput" name="gender" value="Male" required>Male&nbsp;<br>
+                <input type="radio"   id="formGroupExampleInput" name="gender" value="Female">Female&nbsp;<br>
+                <input type="radio"   id="formGroupExampleInput" name="gender" value="No Disclosure">No Disclosure&nbsp;<br>
+            </div>
+            </div>
+<br>
+        <div class="row">
+                <div class="mb-3 col-md-6">
+                <label for="formGroupExampleInput" class="form-label">Username</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="username" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="formGroupExampleInput" class="form-label">Password</label>
+                <input type="password" class="form-control" id="formGroupExampleInput" name="password" required>
+            </div>
+            </div>
+            <div class="mb-3" style="display:flex;align-items: center;justify-content: center;">
+                <input class="btn btn-secondary" type="submit" name="Add Teacher" >
+            </div>
+           </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>
+
+{%endblock%}

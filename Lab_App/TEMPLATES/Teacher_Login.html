@@ -1,0 +1,169 @@
+{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+<style>
+    .input-container {
+                  --c-text: rgb(3, 3, 3);
+                  --c-bg: #070707;
+                  --c-outline: rgb(55, 45 , 190);
+                  display: grid;
+                  gap: 1ch;
+                  position: relative;
+                  max-width: 230px;
+                  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                  color: rgb(155, 252, 0);
+                }
+                
+                .input-field {
+                  padding: 0.5em 0.75em;
+                  border-radius: 0.2em;
+                  border: 1px solid var(--c-border, currentColor);
+                  color: var(--c-text);
+                  font-size: 1rem;
+                  letter-spacing: 0.1ch;
+                  width: 100%;
+                  background-color: antiquewhite;
+                }
+                
+                .input-field:not(:placeholder-shown) + .input-label {
+                  transform: translateY(-130%);
+                  opacity: 1;
+                }
+                
+                .input-field:invalid {
+                  --c-border: rgb(230, 85, 60);
+                  --c-text: rgb(230, 85, 60);
+                  --c-outline: rgb(230, 85, 60);
+                }
+                
+                .input-field:is(:disabled, :read-only) {
+                  --c-border: rgb(255, 255, 255);
+                  --c-text:#000000;
+                }
+                
+                .input-field:is(:focus, :focus-visible) {
+                  outline: 2px solid var(--c-outline);
+                  outline-offset: 2px;
+                }
+                
+                .input-label {
+                  --timing: 200ms ease-in;
+                  position: absolute;
+                  left: 0;
+                  top: 50%;
+                  transition: transform var(--timing),
+                    opacity var(--timing);
+                  transform: translateY(-50%);
+                  opacity: 0;
+                  color: rgb(255, 254, 254);
+                  font-weight: 500;
+                }
+                button {
+ position: relative;
+ left: 45%;
+ top: 66px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 5px;
+ background: #183153;
+ font-family: "Montserrat", sans-serif;
+ box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
+ overflow: hidden;
+ border: none;
+ height: fit-content;
+ width: fit-content;
+}
+
+button:after {
+ content: " ";
+ width: 0%;
+ height: 100%;
+ background: #FFD401;
+ position: absolute;
+ transition: all 0.4s ease-in-out;
+ right: 0;
+}
+
+button:hover::after {
+ right: auto;
+ left: 0;
+ width: 100%;
+}
+
+button span {
+ text-align: center;
+ text-decoration: none;
+ width: 100%;
+ padding: 18px 25px;
+ color: #948e8e;
+ font-size: 1.125em;
+ font-weight: 700;
+ letter-spacing: 0.3em;
+ z-index: 20;
+ transition: all 0.3s ease-in-out;
+}
+
+button:hover span {
+ color: #183153;
+ animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes scaleUp {
+ 0% {
+  transform: scale(1);
+ }
+
+ 50% {
+  transform: scale(0.95);
+ }
+
+ 100% {
+  transform: scale(1);
+ }
+}
+     
+</style>
+
+
+<div style="background-image:  url('/media/ml.png'); background-repeat:no-repeat;background-size:cover;  height:40px; width:100%;">
+    
+
+    <div class="card-back" style="position: absolute; top: 50px;">
+        <div class="center-wrap" style="position: absolute; top: 80px;">
+            <div class="section text-center" style="position: absolute; top: 80px;">
+                <form action="/Teacher_Login/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h4 style="color: aquamarine;">Hello Teacher!</h4>
+                    <br>
+                    <p class="input-container">
+                        
+                        <input style="position: absolute; left: 555px;" type="text" placeholder="Enter your Username" name="username"  class="input-field" required>
+                        <label style="position: absolute; left: 555px;" class="input-label" for="text">Username</label>
+                    </p>
+                    <br>
+                    <br>
+                    <br>
+                    <p class="input-container">
+    
+                        <input style="position: absolute; left: 555px;" type="password" placeholder="Enter your Password" name="password" class="input-field" required>
+                        <label style="position: absolute; left: 555px;" class="input-label" for="text">Password</label>
+                      </p>
+                      <button>
+                        <span>LOGIN</span>
+                      </button>
+                </form>
+    
+    </div>
+</div>
+
+{%endblock%}

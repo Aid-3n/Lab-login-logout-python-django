@@ -1,0 +1,199 @@
+    {% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+
+<div style="background-image:  url('/media/bg3.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+
+
+<!-- Modal for view button -->
+<!-- View Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Teacher Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+             <div class="container">
+        <div class="row" >
+           <form action="/Add_Farmer/" method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+             <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">ID</label>
+                <input type="text" class="form-control" name="updateid"  id="updateid" readonly>
+            </div>
+                <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Name</label>
+                <input type="text" class="form-control"  name="updatename"  id="updatename" readonly>
+            </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Semester</label>
+                <input type="text" class="form-control"  name="updatesub" id="updatesub" readonly>
+            </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Department</label>
+                <input type="text" class="form-control"  name="updatedept" id="updatedept" readonly>
+            </div>
+           </form>
+        </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------------------- -->
+
+<!-- Modal for view button -->
+<!-- View Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Assign Semester and Department</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+             <div class="container">
+        <div class="row" >
+           <form action="/Update_Assign/" method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+             <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">ID</label>
+                <input type="text" class="form-control" name="1updateid"  id="1updateid" >
+            </div>
+                <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Name</label>
+                <input type="text" class="form-control"  name="1updatename"  id="1updatename" >
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Course</label>
+                <!-- <input type="text" class="form-control"  name="1updatesub" id="1updatesub" > -->
+                <select class="form-select" name="1updatesub" id="1updatesub">
+                    <option value="Python">Python</option>
+                    <option value="Java">Java</option>
+                    <option value="C++">C++</option>
+                    <option value="C">C</option>
+                    <option value="Data Structures">Data Structure</option>
+                    <option value="Front End">Front End</option>
+                    <option value="Back end">Back End</option>
+                </select>
+            </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Department</label>
+                <!-- <input type="text" class="form-control"  name="1updatedept" id="1updatedept" > -->
+                <select class="form-select" name="1updatedept" id="1updatedept">
+                    <option selected value="CS">CS</option>
+                    <option value="Science">Science</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="Arts">Arts</option>
+                </select>
+            </div>
+
+            <div class="mb-3" style="display:flex;justify-content: center;align-items: center;">
+                <input type="submit" class="btn btn-secondary" value="Update">
+            </div>
+           </form>
+        </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="container" style="padding-top: 10px; width: 60%;">
+    <br>
+    <h1 style="background:#FFFDD0;opacity: 0.7;">Assign Semester And Department</h1>
+    <br>
+    <table class="table table-hover table-dark table-stripped">
+        <thead>
+            <td>Id</td>
+            <td>Teacher Name</td>
+            <td colspan="2"style="text-align:center">Action</td>
+        </thead>
+
+        <tbody>
+            {%for i in details%}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.Name}}</td>
+                <td>  
+                    <input type="button" class="btn btn-info "id=" {{i.id}}
+                                                            ${{i.Name}}
+                                                            ${{i.Subject}}
+                                                            ${{i.Department}}"
+                             value="View" onclick="View(this)" style="width: 100%;">
+                </td>
+
+                <td> 
+                    <input type="button" class="btn btn-success "id=" {{i.id}}
+                                                            ${{i.Name}}
+                                                            ${{i.Subject}}
+                                                            ${{i.Department}}"
+                             value="Assign" onclick="Update(this)" style="width: 100%;">
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    function View(me){
+        $('#myModal1').modal('show');
+        var id          = me.id;
+        var str         = id.split("$");
+        var ids         = str[0];
+        var Name        = str[1];
+        var Subject     = str[2];
+        var Department     = str[3];
+       
+
+        document.getElementById("updateid").value       = ids;
+        document.getElementById("updatename").value     = Name;
+        document.getElementById("updatesub").value      = Subject;
+        document.getElementById("updatedept").value     = Department;
+        
+    }
+
+    function Update(me){
+        $('#myModal2').modal('show');
+       var id          = me.id;
+        var str         = id.split("$");
+        var ids         = str[0];
+        var Name        = str[1];
+        var Subject     = str[2];
+        var Department     = str[3];
+       
+
+        document.getElementById("1updateid").value       = ids;
+        document.getElementById("1updatename").value     = Name;
+        document.getElementById("1updatesub").value      = Subject;
+        document.getElementById("1updatedept").value     = Department;
+        
+    }
+
+    </script>
+    
+ {% endblock %}

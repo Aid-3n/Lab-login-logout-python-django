@@ -1,0 +1,75 @@
+{% extends 'Base.html'%}
+{% block content%}
+{% if messages %}
+    {% for message in messages %}
+     {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+{%load static%}
+
+
+
+<div>
+<br>
+<div class="container" style="border: solid 2px;background-color:rgb(209, 209, 209);border-radius: 5px;width: 50%;">
+    <h1 style="border-bottom: solid 2px; color: black;">Add Subject And Time</h1>
+       <form action="/Assign_Lab/" method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="row" >
+        <div class="mb-3 col-md-6">
+            <label for="formGroupExampleInput" class="form-label" style="color: black;">Day</label>
+            <select name="day" class="form-select">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+            </select>
+        </div>
+        </div>
+       
+        <div class="row">
+            <div class="mb-3 col-md-6">
+            <label for="formGroupExampleInput" class="form-label" style="color: black;">Time</label>
+               <select name="time" class="form-select" style="width: fit-content;" required>
+                <option value="">Choose a Time</option>
+                <option value="09:00-12:00">09:00AM to 12:00PM</option>
+                <option value="01:00-04:00">01:00PM to 04:00PM</option>
+            </select>
+            </div>
+        </div>
+
+        <div class="row">
+        <div class="mb-3 col-md-6">
+        <label for="formGroupExampleInput" class="form-label" style="color: black;">Semester</label>
+      <select name="semester" class="form-select" required style="width: fit-content;">
+          <option value="">Select Semester</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+      </select>
+    </DIV>
+    </DIV>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+            <label for="formGroupExampleInput" class="form-label" style="color: black;" >Subject</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" name="subject" placeholder="Subject" required>
+        </div>
+    </DIV>
+        
+        <div class="mb-3" style="display:flex;align-items: center;justify-content: center;">
+            <input class="btn btn-secondary" type="submit" name="Assign" >
+        </div>
+       </form>
+    </div>
+</div>
+</div>
+
+{%endblock%}

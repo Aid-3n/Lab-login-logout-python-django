@@ -1,0 +1,47 @@
+	{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+<div style="background-image:  url('/media/sd1.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+
+    <div class="container" style="padding-top:50px;">
+        <div style="display:flex; justify-content: right;align-items: right;">
+        <a  class="btn btn-info" href="/Assign_Lab/">Assign</a>
+    </div>
+    <br>
+        <table class="table table-hover table-dark">
+            <thead>
+                <th>Subject</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Action</th>
+            </thead>
+
+            <tbody>
+                {%for i in details%}
+                <tr>
+                    <td>{{i.Subject}}</td>
+                    <td>{{i.Day}}</td>
+                    <td>{{i.Start_time}} - {{i.End_time}}</td>
+                    <td>
+                        <a class="btn btn-danger" method="POST" href="/Delete_Lab/{{i.id}}/">Delete</a>
+                    </td>
+                    
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+{%endblock%}

@@ -1,0 +1,128 @@
+{% extends 'Base.html'%}
+{% block content%}
+{% if messages %}
+    {% for message in messages %}
+     {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+{%load static%}
+
+<style>
+table {
+border-collapse: collapse;
+width: 100%;
+}
+
+th, td {
+text-align: left;
+padding: 8px;
+background-color: white;
+}
+
+tr:nth-child(even){background-color: white}
+
+th {
+background-color: black;
+color: white;
+}
+
+</style>
+
+<div style="background-image:  url('/media/sd3.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+<br>
+<div class="container" style="width:70%" >
+<form action="/Mark_Attendance/" method="POST" enctype="multipart/form-data" name="form">
+  {%csrf_token%}
+  <br>
+  <h6 style="color:tomato; padding-right: 168px; display: inline-flex;"><u><i>Choose Subject</i></u></h6>
+  <select class="form-select" aria-label="Default select example" name="Subject" style="display: inline-flex; width: 300px;">
+    {% for i in subjects%}
+    <option selected value="{{i.Subject}}"> {{i.Subject}}</option>
+    {% endfor %}
+  </select>  
+  <br>
+  <br>
+  <br>
+<center>
+  <input class="btn btn-secondary" type="submit" name="submit">
+</center>
+    
+</form>
+
+<br>
+
+
+<table>
+<tr>
+<th>Admn No</th>
+<th>Name</th>
+<th>Log IN</th>
+<th>Log Out</th>
+
+<th style="text-align: center;" colspan="6  " >Attendance Status</th>
+
+
+</tr>
+{% for i in data %}
+<tr>
+<td>{{i.Barcode}}</td>
+<td>{{i.Name}}</td>
+<td>{{i.Login_Time}}</td>
+<td>{{i.Logout_Time}}</td>
+
+{% if i.Login_Status == Null %}
+<td>
+
+ <form method="POST" action="/Log_In/">
+  {%csrf_token%}
+   <input class="form-control" type="text" name="barcode" autofocus required>
+   <input type="submit" class="btn btn-warning" formaction="/Log_In/{{i.Barcode}}/" name="" value="Login">
+ </form>
+{% else %}
+</td>
+<td>Logged In</td>
+{%endif%}
+
+{% if i.Logout_Status == Null %}
+<td>
+
+ <form method="POST" action="/Log_Out/">
+  {%csrf_token%}
+   <input class="form-control" type="text" name="barcode"  autofocus required>
+   <input type="submit" class="btn btn-success" formaction="/Log_Out/{{i.Barcode}}/" name="" value="Logout">
+ </form>
+{% else %}
+</td>
+<td>Logged Out</td>
+{%endif%}
+
+{% if i.Login_Status == Null %}
+<td> <a class="btn btn-warning"  href = "/Log_In/{{i.Barcode}}/">Log In</button></td>
+  {% else %}
+  <td></td>
+{%endif%}
+
+  {% if i.Logout_Status == Null %}
+  <td> <a class="btn btn-success"  href = "/Log_Out_Manual/{{i.Barcode}}/">Log Out</button></td>
+  
+  {% else %}
+<td></td>
+  {% endif %}
+  {% if i.Logout_Status == Null %}
+ <td> <a class="btn btn-primary"  href = "/Real_time/">Real Time Scan</a></td>
+ {% else %}
+<td></td>
+ {% endif %}
+
+  
+
+</tr>
+{% endfor %}
+</table>
+<br>
+<br>
+
+
+{%endblock%}

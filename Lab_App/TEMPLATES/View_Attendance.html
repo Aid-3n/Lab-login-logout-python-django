@@ -1,0 +1,190 @@
+	{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+<div style="background-image:  url('/media/ml.png'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+    <br>
+    <br>
+	<div class="container" style="width:70%" >
+		<form action="/View_Attendance/" method="POST" enctype="multipart/form-data">
+			{%csrf_token%}
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<br>
+						<div class="col-md-2">
+							<p style="color:rgb(255, 255, 255)"><u>Select Time</u></p>
+                        </div>
+						
+						<div class="col-md-8">
+							<select class="form-select" aria-label="Default select example" name="Today_date" style="width: auto;">
+                                <option value="">Choose Date</option>
+								{% for i in today%}
+								<option  value="{{i.Today_date}}" name = "Today_date"> {{i.Today_date}}</option>
+								{% endfor %}
+							</select>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-2">
+                              <p style="color:rgb(255, 255, 255)"><u>Select Subject</u></p>
+                            </div>
+                            <div class="col-md-8">
+                              <select class="form-select" aria-label="Default select example" name="Subject" style="width: auto; position: relative;">
+                                <option value="">Choose Subject</option>
+                                {% for i in subjects%}
+                                  <option value="{{i.Subject}}" name="Subject">{{i.Subject}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          
+                        <br>
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>		
+		</form>
+		<br>
+    <div class="container" style="padding-top:50px;">
+        <div style="display:flex; justify-content: right;align-items: right;">
+            <br>
+        <table class="table table-hover table-dark">
+            <thead>
+                <th>Date</th>
+                <th>Subject</th>
+                <th align="center">Admission Number</th>
+                <th>Name</th>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+                <th>Attendance status</th>
+            </thead>
+
+            <tbody>
+                {%for i in details%}
+                <tr>
+                    <td>{{i.Today_date}}</td>
+                    <td>{{i.Subject}}</td>
+                    <td align="center">{{i.Student_ID}}</td>
+                    <td>{{i.Name}}</td>
+                    <td>{{i.Login_Time}}</td>
+                    <td>{{i.Logout_Time}}</td>
+                    <td>{{i.Attendance_status}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    <center>
+     <button type="button" class="btn btn-dark" onclick="tableToCSV()">
+            download CSV
+        </button>
+        <button onclick="tableToPDF()" class="btn btn-dark">Download PDF</button>
+    </center>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.2/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.2/vfs_fonts.js"></script>
+
+ <script type="text/javascript">
+        function tableToCSV() {
+ 
+            // Variable to store the final csv data
+            var csv_data = [];
+ 
+            // Get each row data
+            var rows = document.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+ 
+                // Get each column data
+                var cols = rows[i].querySelectorAll('td,th');
+ 
+                // Stores each csv row data
+                var csvrow = [];
+                for (var j = 0; j < cols.length; j++) {
+ 
+                    // Get the text data of each cell
+                    // of a row and push it to csvrow
+                    csvrow.push(cols[j].innerHTML);
+                }
+ 
+                // Combine each column value with comma
+                csv_data.push(csvrow.join(","));
+            }
+ 
+            // Combine each row data with new line character
+            csv_data = csv_data.join('\n');
+ 
+            // Call this function to download csv file 
+            downloadCSVFile(csv_data);
+    
+ 
+        }
+ 
+        function downloadCSVFile(csv_data) {
+ 
+            // Create CSV file object and feed
+            // our csv_data into it
+            CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+ 
+            // Create to temporary link to initiate
+            // download process
+            var temp_link = document.createElement('a');
+ 
+            // Download csv file
+            temp_link.download = "GfG.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+ 
+            // This link should not be displayed
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+ 
+            // Automatically click the link to
+            // trigger download
+            temp_link.click();
+            document.body.removeChild(temp_link);
+        }
+
+        function tableToPDF() {
+            // Get each row data
+            var rows = document.getElementsByTagName('tr');
+    
+            // Define the PDF document
+            var docDefinition = {
+                content: [{
+                    table: {
+                        body: []
+                    }
+                }]
+            };
+    
+            // Populate the PDF document with table data
+            for (var i = 0; i < rows.length; i++) {
+                var cols = rows[i].querySelectorAll('td,th');
+                var pdfrow = [];
+                for (var j = 0; j < cols.length; j++) {
+                    pdfrow.push(cols[j].innerHTML);
+                }
+                docDefinition.content[0].table.body.push(pdfrow);
+            }
+    
+            // Download the PDF file
+            pdfMake.createPdf(docDefinition).download("table.pdf");
+        }
+    </script>
+{%endblock%}

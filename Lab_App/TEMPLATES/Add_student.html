@@ -1,0 +1,138 @@
+	{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+    <div style="background-image: url('/media/gd3.jpg'); background-size: cover; background-position: center; height: 100%; width: 100%;">
+
+	<br>
+ <section class="vh-100" >
+  <div class="container h-100">
+  	<form action="/Add_student/" method="POST" enctype="multipart/form-data" name="jauh">
+                    {% csrf_token %}
+    <div class="row d-flex justify-content-center align-items-center h-100">
+    	
+      <div class="col-xl-8">
+      <div class="card" style="border-radius: 18px;">
+          <div class="card-body">
+            <hr class="mx-n3">
+            <div class="row align-items-center pt-4 pb-3">
+              <div class="col-md-3 ps-5">
+
+                <h6 class="mb-0">Full Name</h6>
+
+              </div>
+              <div class="col-md-7 pe-5">
+
+                <input type="text" class="form-control" name="Name" required/>
+
+              </div>
+            </div>
+
+            <hr class="mx-n3">
+            <div class="row align-items-center pt-4 pb-3">
+              <div class="col-md-3 ps-5">
+
+                <h6 class="mb-0">Admission Number</h6>
+
+              </div>
+              <div class="col-md-3 pe-5">
+                
+                <input type="text" class="form-control" name="Barcode" required/>
+
+              </div>
+              
+            </div>
+            <hr class="mx-n3">
+            <div class="row align-items-center pt-4 pb-3">
+              <div class="col-md-3 ps-5">
+
+                <h6 class="mb-0">Age</h6>
+
+              </div>
+              <div class="col-md-3 pe-5">
+
+                <input type="text" class="form-control" name="Age" required/>
+
+              </div>
+            <hr class="mx-n3">
+            <div class="row align-items-center pt-4 pb-3">
+              <div class="col-md-3 ps-5">
+
+                <h6 class="mb-0">Gender</h6>
+
+              </div>
+              <div class="col-md-9 pe-9">
+
+                  <input type="radio" class="form-check-input" id="flexRadioDefault1" name="Gender" value="male" required> Male 
+                  <br>
+                  <input type="radio" class="form-check-input" id="flexRadioDefault1" name="Gender" value="female"> Female
+                  <br>
+                  <input type="radio" class="form-check-input" id="flexRadioDefault1" name="Gender" value="Others"> Others 
+
+              </div>
+              <hr class="mx-n3">
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Semester</h6>
+                </div>
+                <div class="col-md-3 pe-5">
+                <select name="Semester" class="form-select" style="width: 250px; display: inline;" required>
+                    {% for sem in semesters %}
+                  <option value="Semester">{i.sem}</option>
+                  {% endfor %}
+                  </select>
+            </div>
+            </div>
+            <hr class="mx-n3">
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Department</h6>
+                </div>
+                <div class="col-md-3 pe-5">
+              <select name="Department"class="form-select" style="width: 250px; display: inline-block;" required>
+                <option value="">Select Department</option>
+                <option value="Computer Engineering">Computer Engineering</option>
+                <option value="Electrical electronics engineering">Electrical electronics engineering</option>
+                <option value="Mechanical engineering">Mechanical engineering</option>
+                <option value="Architecture">Architecture</option>
+                <option value="Civil engineering">Civil engineering</option>
+                <option value="Automobile engineering">Automobile engineering</option>
+            </select>
+          </div>
+          </div>
+            
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-4 ps-5">
+                  <h6 class="mb-0">Subject</h6>
+                </div>
+              <select name="Subject" class="form-select" style="width: 250px; display: inline-block;" required>
+                </select>
+            </div>
+            
+
+<div class="px-5 py-2">
+             <center> <button type="submit" class="btn btn-primary btn-lg">Add Student</button></center>
+            </div>
+          </div>
+          </div>
+          </div>
+  </form>             
+  <form method="post" action="{% url 'data_upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <b><label style="padding-left: 50px; font-weight: bold;" for="excel_file">Please Choose Excel File: </label></b>
+    <input type="file" name="excel_file" id="excel_file">
+    <button class="btn btn-primary btn-lg" type="submit">Upload</button>
+</form> 
+</section>   
+</div>
+
+{%endblock%}

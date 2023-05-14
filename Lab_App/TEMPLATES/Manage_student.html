@@ -1,0 +1,351 @@
+  {% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+<div style="background-image:  url('/media/.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+   <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+th, td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: beige;
+}
+
+
+</style>
+</head>
+<body>
+  <br>
+<div class="container"> 
+<h2 style="text-align:center; color: #ce3f3f;"><u>STUDENT LIST</u></h2>
+<br>
+<div style="display:flex; justify-content: right;align-items: right;">
+      <a  class="btn btn-info" href="/Add_student/" style="color: black ;">Add Student</a>
+    </div>
+
+<table>
+  <tr>
+    <th>Admn No</th>
+    <th>Full Name</th>
+    <th>Department</th>
+    <th>Semester</th>
+    <th colspan="3" style="text-align:center">Action</th>
+
+
+  </tr>
+{% for i in Students%}
+  <tr>
+    <td>{{i.Barcode}}</td>
+    <td>{{i.Name}}</td>
+    <td>{{i.Department}}</td>
+    <td align="center">{{i.Semester}}</td>
+  
+
+    <td> <button style="background-color: coral; color: black;" class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#View" 
+      id="{{i.id}}
+      ${{i.Name}}
+      ${{i.Age}}
+      ${{i.Gender}}
+      ${{i.Department}}
+      ${{i.Semester}}
+      ${{i.Barcode}}
+      ${{i.Subject}}"
+      onclick="View(this)">View</button></td>
+
+    <td> <button style="background-color: rgb(55, 43, 226); color: black;"  class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#Update"
+      id="{{i.id}}
+      ${{i.Name}}
+      ${{i.Age}}
+      ${{i.Gender}}
+      ${{i.Department}}
+      ${{i.Semester}}
+      ${{i.Barcode}}
+      ${{i.Subject}}"
+      onclick="Update(this)">Update</button></td>
+
+    <td><a style="background-color: red; color: black;"  class="btn btn-danger" href="/DeleteStudent/{{i.id}}" onclick="return confirm('Are you sure you want to remove this student?')">Delete</a></td>
+    
+  </tr>
+  {% endfor %}
+</table>
+
+
+</div>
+
+<!--Barcode Modal -->
+<!--
+<div class="modal fade" id="Barcode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Assign Barcode</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form action="/Assign_Barcode/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+        <label>Student ID</label>
+        <input type="text" name="updateid"  id ="updateid"value="" class="form-control" readonly="" >
+        <br>
+        <label>Student Name</label>
+        <input type="text" name="updatename" id="updatename" value="" class="form-control" readonly="" >
+        <br>
+        <label>Admission Number</label>
+        <input type="text" name="number" id="number" value="" class="form-control"  >
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+Button trigger modal -->
+
+
+<!--Department Assign Modal -->
+
+<!-- Button trigger modal -->
+
+
+<!--View Modal -->
+<div class="modal fade" id="View" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Student Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="mb-3 col-md-6">
+              <label for="formGroupExampleInput" class="form-label">ID</label>
+              <input type="text" class="form-control" id="view_id" name="view_id" readonly>
+          </div>
+
+          <div class="mb-3 ">
+              <label for="formGroupExampleInput" class="form-label">Name</label>
+              <input type="text" class="form-control" id="view_name" name="view_name" readonly>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="formGroupExampleInput" class="form-label">Age</label>
+              <input type="text" class="form-control" id="view_Age" name="view_Age" readonly>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="formGroupExampleInput" class="form-label">Gender</label>
+              <input type="text" class="form-control" id="view_Gender" name="view_Gender" readonly>
+            </div>
+          </div>
+           <div class="row">
+            <div class="mb-3 col-md-4">
+              <label for="formGroupExampleInput" class="form-label">Department</label>
+              <input type="text" class="form-control" id="view_Department" name="view_Department" readonly>
+            </div>
+            <div class="mb-3 col-md-8">
+              <label for="formGroupExampleInput" class="form-label">Semester</label>
+              <input type="text" class="form-control" id="view_Semester" name="view_Semester" readonly>
+            </div>
+          </div>
+
+            <div class="mb-3 col-md-8">
+              <label for="formGroupExampleInput" class="form-label">Admission Number</label>
+              <input type="text" class="form-control" id="view_Barcode" name="view_Barcode" readonly>
+            </div>
+            <div class="mb-3 col-md-8">
+              <label for="formGroupExampleInput" class="form-label">Subjects</label>
+              <input type="text" class="form-control" id="view_Subject" name="view_Subject" readonly>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Button trigger modal -->
+
+<!--Update Modal -->
+<div class="modal fade" id="Update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Student </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/Update/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+        <div class="mb-3 col-md-6">
+              <label for="formGroupExampleInput" class="form-label">ID</label>
+              <input type="text" class="form-control" id="update_id" name="update_id" readonly>
+          </div>
+
+          <div class="mb-3 ">
+              <label for="formGroupExampleInput" class="form-label">Name</label>
+              <input type="text" class="form-control" id="update_name" name="update_name" >
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="formGroupExampleInput" class="form-label">Age</label>
+              <input type="text" class="form-control" id="update_Age" name="update_Age" readonly>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="formGroupExampleInput" class="form-label">Gender</label>
+              <input type="text" class="form-control" id="update_Gender" name="update_Gender" readonly>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-md-4">
+              <label for="formGroupExampleInput" class="form-label">Department</label>
+              <select name="update_Department" class="form-select" id = "update_Department"  required>
+                <option selected>Select Department</option>
+                <option value="Computer Engineering">Computer Engineering</option>
+                <option value="Electrical electronics engineering">Electrical electronics engineering</option>
+                <option value="Mechanical engineering">Mechanical engineering</option>
+                <option value="Architecture">Architecture</option>
+                <option value="Civil engineering">Civil engineering</option>
+                <option value="Automobile engineering">Automobile engineering</option>
+            </select>
+            </div>
+            <div class="mb-3 col-md-4">
+              <label for="formGroupExampleInput" class="form-label">Semester</label>
+              <select name="update_Semester" class="form-select" id = "update_Semester" required>
+                <option selected>Select Semester</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            </div>
+          </div>
+
+          
+            <div class="mb-3 col-md-8">
+              <label for="formGroupExampleInput" class="form-label">Admission Number</label>
+              <input type="text" class="form-control" id="update_Barcode" name="update_Barcode" readonly>
+            </div>
+
+            <div class="mb-3 col-md-8">
+              <label for="formGroupExampleInput" class="form-label">Subjects</label>
+              <input type="text" class="form-control" id="update_Subjects" name="update_Subjects">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3"><center>
+              <input type="submit" class="btn btn-secondary" value="Update">
+            </center>
+          </div>
+          </div>
+      </form>
+
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Button trigger modal -->
+<script type="text/javascript">
+  
+      
+      function Department(me){
+      
+        var id          = me.id;
+        var str         = id.split("$");
+        var ids         = str[0];
+        var Name        = str[1];
+        var Department  = str[2];
+        var Semester    = str[3];
+        var Subject     = str[4];
+        document.getElementById("stud_id").value       = ids;
+        document.getElementById("stud_name").value     = Name;
+        document.getElementById("stud_Department").value = Department;
+        document.getElementById("stud_Semester").value   = Semester;
+        document.getElementById("stud_Subject").value   = Subject;
+
+      $('#Department').modal('show');
+      }
+
+       function View(me){
+      
+        var id          = me.id;
+        var str         = id.split("$");
+        var ids         = str[0];
+        var Name        = str[1];
+        var Age         = str[2];
+        var Gender        = str[3];
+        var Department        = str[4];
+        var Semester        = str[5];
+        var Barcode        = str[6];
+        var Subject    =str[7];
+        
+        
+        document.getElementById("view_id").value       = ids;
+        document.getElementById("view_name").value     = Name;
+        document.getElementById("view_Age").value     = Age;
+        document.getElementById("view_Gender").value     = Gender;
+        document.getElementById("view_Department").value     = Department;
+        document.getElementById("view_Semester").value     = Semester;
+        document.getElementById("view_Barcode").value     = Barcode;
+        document.getElementById("view_Subject").value =Subject
+        
+      $('#View').modal('show');
+      }
+
+
+      function Update(me){
+      
+        var id          = me.id;
+        var str         = id.split("$");
+        var ids         = str[0];
+        var Name        = str[1];
+        var Age        = str[2];
+        var Gender        = str[3];
+        var Department        = str[4];
+        var Semester        = str[5];
+        var Barcode        = str[6];
+        var Subject    =str[7];
+
+        document.getElementById("update_id").value       = ids;
+        document.getElementById("update_name").value     = Name;
+        document.getElementById("update_Age").value     = Age;
+        document.getElementById("update_Gender").value     = Gender;
+        document.getElementById("update_Department").value     = Department;
+        document.getElementById("update_Semester").value     = Semester;
+        document.getElementById("update_Barcode").value     = Barcode;
+        document.getElementById("update_Subjects").value = Subject;
+
+      $('#Update').modal('show');
+      }
+</script>
+
+
+{%endblock%}
